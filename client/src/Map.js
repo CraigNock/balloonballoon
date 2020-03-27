@@ -61,7 +61,7 @@ const MapMap = () => {
   const [y, setY] = React.useState(1);
   useEffect(() => {
     let posInt = setInterval(()=>{
-    changePosition(state.lat - (0.000015 * y), state.long - (0.00001 * x));
+    changePosition(state.lat - (0.00001 * y), state.long - (0.00001 * x));
 }, 100);
     // console.log(lat, long);
     return () => clearInterval(posInt);
