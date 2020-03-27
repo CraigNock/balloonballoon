@@ -29,7 +29,7 @@ const conditionsHandle = async (req, res) => {
     conditions:conditions,
   })
 }
-app.post('/conditions', conditionsHandle);
+app.post('/api/conditions', conditionsHandle);
 
 
 // The "catchall" handler: for any request that doesn't
