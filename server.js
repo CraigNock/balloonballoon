@@ -1,11 +1,14 @@
 const express = require('express');
 const path = require('path');
 const request = require('request-promise');
+const bodyParser = require('body-parser');
+
 
 const app = express();
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(bodyParser.json());
 
 
 const darkGet = async (lat, long) => {
