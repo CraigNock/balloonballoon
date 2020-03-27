@@ -11,7 +11,7 @@ const getWind = (pos, changeConditions) => {
   let currentPosition = [...pos];
   console.log('position at fetch ', currentPosition);
 
-  fetch('https://whereis-backend.herokuapp.com/conditions', {
+  fetch('/api/conditions', {
     method: 'POST',
     headers: {
         "Content-Type": "application/json",
