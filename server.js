@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const request = require('request-promise');
 const bodyParser = require('body-parser');
-
+const opencage = require('opencage-api-client');
 
 const app = express();
 
@@ -18,8 +18,7 @@ const darkGet = async (lat, long) => {
     // console.log('darkdata', darkData);
     return darkData;
   } catch(err) {console.log('error', err)}
-}
-
+};
 const conditionsHandle = async (req, res) => {
   let position = req.body.currentPosition;
   // console.log('position ',position);
@@ -31,9 +30,39 @@ const conditionsHandle = async (req, res) => {
     status:'200',
     conditions:conditions,
   })
-}
-app.post('/api/conditions', conditionsHandle);
+};
 
+const addressGet = async (addresso) => {
+  const requestObj = {
+    key: '35f6bd1548f84ae2bcb8e99a4fae585f',
+    q: addresso
+  };
+  return opencage.geocode(requestObj)
+    .then(data => {
+        if (data.status.code == 200) {
+            if (data.results.length > 0) {
+                const place = data.results[0];
+                // console.log(place.geometry);
+                return place.geometry;
+            }
+        } else {
+            console.log('error', data.status.message);
+        }
+    })
+    .catch(error => console.log('error', error.message));
+}
+const addressHandle = async (req, res) => {
+  let addresso = req.body.address;
+  // console.log('address ', addresso);
+  let data = await addressGet(addresso);
+  res.status(200).send({
+    status:'200',
+    data: data,
+  })
+};
+
+app.post('/api/conditions', conditionsHandle);
+app.post('/api/address', addressHandle);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

@@ -3,13 +3,24 @@ import styled from 'styled-components';
 import Clouds from './Clouds'
 import MapMap from './Map';
 import LocalWeather from './LocalWeather';
+import AddressToPosition from './AddressToPosition';
+
+import gentleman from './assets/gentleman.svg'
+
+
 
 const Homepage = () => {
 
   return(
     <StyledSkyWrap>
       <Clouds/>
-      <StyledTitle>Where <span>is</span> my Balloon?</StyledTitle>
+      <StyledTopBar>
+        <StyledTitle>
+          <img src={gentleman} alt='gentleman'/>
+          Where <span>is</span> my Balloon? 
+        </StyledTitle>
+        <AddressToPosition/>
+      </StyledTopBar>
       <StyledContent>
         <MapMap/>
         <LocalWeather/>
@@ -26,26 +37,32 @@ const StyledSkyWrap = styled.div`
   overflow-x: hidden;
 `;
 
-const StyledTitle = styled.h1`
-  font-family: 'Trade Winds', cursive;
-  /* font-family: 'Lobster', cursive; */
-  /* font-family: 'Dancing Script', cursive; */
-  /* font-family: 'Kaushan Script', cursive; */
-  /* font-family: 'Rochester', cursive; */
-  /* font-family: 'Pinyon Script', cursive; */
-  /* font-family: 'Fredericka the Great', cursive; */
+const StyledTopBar = styled.div`
+  display: flex;
+  justify-content: space-between;
   padding: 1rem;
   background: rgba(0,0,0,.5);
   margin-bottom: 1rem;
-  span {
-    font-family: 'Trade Winds', cursive;
-  /* font-family: 'Lobster', cursive; */
-  /* font-family: 'Dancing Script', cursive; */
-  /* font-family: 'Kaushan Script', cursive; */
-  /* font-family: 'Rochester', cursive; */
+`;
+
+const StyledTitle = styled.h1`
+  /* font-family: 'Trade Winds', cursive; */
+  /* font-family: 'Rye', cursive; */
   /* font-family: 'Pinyon Script', cursive; */
-  /* font-family: 'Fredericka the Great', cursive; */
+  font-family: 'Fredericka the Great', cursive;
+  color: whitesmoke;
+  
+  span {
+    /* font-family: 'Trade Winds', cursive; */
+    /* font-family: 'Pinyon Script', cursive; */
+    font-family: 'Fredericka the Great', cursive;
     font-style: italic;
+    color: whitesmoke;
+  }
+  img {
+    height: 3rem;
+    vertical-align: -50%;
+    margin-right: 1rem;
   }
 `;
 

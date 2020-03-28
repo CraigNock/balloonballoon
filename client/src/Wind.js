@@ -9,7 +9,7 @@
 const getWind = (pos, changeConditions) => {
 
   let currentPosition = [...pos];
-  console.log('position at fetch ', currentPosition);
+  // console.log('position at fetch ', currentPosition);
 
   fetch('/api/conditions', {
     method: 'POST',

@@ -7,6 +7,7 @@ import Overlay from 'pigeon-overlay';
 //tippy for on click marker?
 import balloon from './assets/balloon.svg'
 
+
 import getWind from './Wind';
 
 import {PositionContext} from './PositionContext';
@@ -72,9 +73,9 @@ const MapMap = () => {
     // console.log('sc ',stateCond);
     let windSum = (windGust-windSpeed)/2 + windSpeed;
     // console.log('windsum ',windSum);
-    // console.log('windbearing ', windBearing);
-    setY(windSum * Math.cos((-(windBearing - 90)) * Math.PI / 180));
-    setX(windSum * Math.sin((-(windBearing - 90)) * Math.PI / 180));
+    console.log('windbearing ', windBearing);
+    setY(windSum * Math.cos((-(windBearing -180)) * Math.PI / 180));
+    setX(windSum * Math.sin((-(windBearing )) * Math.PI / 180));
     // console.log('x ',x,'y ', y);
 // eslint-disable-next-line
   }, [stateCond]);
