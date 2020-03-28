@@ -64,7 +64,6 @@ const AddressToPosition = () => {
 
 const StyledForm = styled.form`
   display:inline-block;
-  margin-right: ;
   label {
     font-family: 'Fredericka the Great', cursive;
     font-size: 1rem;
