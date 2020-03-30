@@ -3,12 +3,45 @@ const path = require('path');
 const request = require('request-promise');
 const bodyParser = require('body-parser');
 const opencage = require('opencage-api-client');
+const moment = require('moment-timezone');
 
 const app = express();
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json());
+
+
+
+const cityGet = async (lat, lon) => {
+  try{
+    let cityData = await request(`http://overpass-api.de/api/interpreter?data=[out:json];node(around:10000,${lat},${lon})["place"="city"];out;`);
+    cityData = JSON.parse(cityData);
+    return cityData;
+  } catch(err) {console.log('error', err)};
+};
+const nearestHandle = async (req, res) => {
+  let position = req.body.currentPosition;
+  let lat = position[0];
+  let lon = position[1];
+  let cities = await cityGet(lat, lon);
+  let cityList = [...cities.elements];
+  cityList.sort((elementA, elementB) => {
+    let a = Math.abs( (lat - elementA.lat) + (lon - elementA.lon) );
+    let b = Math.abs( (lat - elementB.lat) + (lon - elementB.lon) );
+    return a - b;
+  });
+  const cityName = cityList[0].tags.name;
+  res.status(200).send({
+    status:'200',
+    cityName:cityName,
+  })
+};
+
+//data.elements[0].tags.name
+//data.elements[0].tags.population
+//data.elements[0].lat //use for distance?
+//data.elements[0].lon
 
 
 const darkGet = async (lat, long) => {
@@ -24,8 +57,10 @@ const conditionsHandle = async (req, res) => {
   // console.log('position ',position);
   let lat = position[0];
   let long = position[1];
-  // let elevation = position.elevation;
   let conditions = await darkGet(lat, long);
+  let timey = moment.unix(conditions.currently.time).tz(conditions.timezone).format('ha z');
+  // console.log('timey ', timey);
+  conditions.currently.time = timey;
   res.status(200).send({
     status:'200',
     conditions:conditions,
@@ -63,6 +98,7 @@ const addressHandle = async (req, res) => {
 
 app.post('/api/conditions', conditionsHandle);
 app.post('/api/address', addressHandle);
+app.post('/api/nearest', nearestHandle);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

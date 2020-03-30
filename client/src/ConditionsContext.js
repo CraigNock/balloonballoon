@@ -24,6 +24,7 @@ const initialStateCond = {
   uvIndex: 0,
   visibility: 16.093,
   ozone: 400.3,
+  closestCity: 'Atlantis',
 }
 
 const reducer = (stateCond, action) => {
@@ -51,7 +52,11 @@ const reducer = (stateCond, action) => {
         visibility: action.conditions.visibility,
         ozone: action.conditions.ozone,
       };
-  
+    case 'CHANGE-CLOSEST-CITY':
+      return {
+        ...stateCond,
+        closestCity: action.closestCity,
+      }
     default:
       return;
   }
@@ -68,12 +73,12 @@ export const ConditionsProvider = ({children}) => {
     console.log('newconditions ', newConditions);
   };
 
-  // const changeConditions = (newElevation) => {
-  //   dispatch({
-  //     type: 'CHANGE-ELEVATION',
-  //     elevation: newElevation,
-  //   })
-  // };
+  const changeClosestCity = (newClosestCity) => {
+    dispatch({
+      type: 'CHANGE-CLOSEST-CITY',
+      closestCity: newClosestCity,
+    })
+  };
 
 
   return (
@@ -82,7 +87,7 @@ export const ConditionsProvider = ({children}) => {
         stateCond,
         actions:{
           changeConditions,
-          
+          changeClosestCity,
         },
       }}
     >

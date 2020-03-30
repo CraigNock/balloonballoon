@@ -1,28 +1,29 @@
-// api key: 35f6bd1548f84ae2bcb8e99a4fae585f
-
-import React from 'react';
-import styled from 'styled-components';
-
-import {PositionContext} from './PositionContext';
-import {ConditionsContext} from './ConditionsContext'; 
 
 
 
-const ClosestCity = () => {
-  const { state } = React.useContext(PositionContext);
-  const { stateCond } = React.useContext(ConditionsContext);
+const getClosestCity = (pos, changeClosestCity) => {
+  
+  let currentPosition = [...pos];
+  // console.log('position at fetch ', currentPosition);
 
+  fetch('/api/nearest', {
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json",
+        "Accept" : "application/json"
+    },
+    body:JSON.stringify({currentPosition})
+})
+    .then(data => data.json())
+    .then(data => {
+      // console.log('current conditions ', data.conditions.currently);
+      // console.log('windSpeed ', data.conditions.currently.windSpeed);
+      let closestCity = data.cityName;
+      changeClosestCity(closestCity);
+    });
 
-  useEffect(() => {
-
-  }, [stateCond])
-
-  return (
-    <>
-    </>
-  )
 };
 
 
 
-export default ClosestCity;
+export default getClosestCity;

@@ -7,8 +7,8 @@ import Overlay from 'pigeon-overlay';
 //tippy for on click marker?
 import balloon from './assets/balloon.svg'
 
-
 import getWind from './Wind';
+import getClosestCity from './ClosestCity';
 
 import {PositionContext} from './PositionContext';
 import {ConditionsContext} from './ConditionsContext'; 
@@ -38,32 +38,46 @@ const MapMap = () => {
   const {state, actions: {changePosition}} = React.useContext(PositionContext);
   const {lat, long,} = state;
 
-  const { stateCond, actions: {changeConditions}} = React.useContext(ConditionsContext);
+  const { stateCond, actions: {changeConditions, changeClosestCity}} = React.useContext(ConditionsContext);
   const {windSpeed,windGust,windBearing,} = stateCond;
 
-
-  const [focus, setFocus] = React.useState(0);
+//UPDATES CONDITIONS EVERY 10MIN
+  const [condup, setCondup] = React.useState(0);
   useEffect(() => {
     let posInt = setInterval(()=>{
-      setFocus(n => n + 0.00001);
+      setCondup(n => n + 0.00001);
       // console.log(focus);
     }, 600000);
     return () => clearInterval(posInt);
     // eslint-disable-next-line
   }, []);
-
   useEffect(() => {
     getWind([state.lat, state.long], changeConditions);
   // eslint-disable-next-line
-  }, [focus]);
+  }, [condup]);
 
+//UPDATES NEAREST CITY EVERY 2MINS
+  const [cityup, setCityup] = React.useState(0);
+  useEffect(() => {
+    let cityInt = setInterval(()=>{
+      setCityup(n => n + 0.00001);
+      // console.log(focus);
+    }, 120000);
+    return () => clearInterval(cityInt);
+    // eslint-disable-next-line
+  }, []);
+  useEffect(() => {
+    getClosestCity([state.lat, state.long], changeClosestCity);
+  // eslint-disable-next-line
+  }, [cityup]);
 
+//MOVES BALLOON AND CHANGES DIRESTION WITH CONDITION UPDATE
   const [x, setX] = React.useState(1);
   const [y, setY] = React.useState(1);
   useEffect(() => {
     let posInt = setInterval(()=>{
-    changePosition(state.lat - (0.00001 * y), state.long - (0.00001 * x));
-}, 100);
+    changePosition(state.lat - (0.000001 * y), state.long - (0.000001 * x));
+    }, 100);
     // console.log(lat, long);
     return () => clearInterval(posInt);
   // eslint-disable-next-line
@@ -100,7 +114,8 @@ const MapMap = () => {
       >
         <Overlay 
         anchor={[lat, long]} 
-        offset={[5, 15]}>
+        offset={[5, 15]}
+        >
           {/* <span role="img" aria-label='balloon'>🎈</span> */}
           <StyledBalloon src={balloon} />
         </Overlay>

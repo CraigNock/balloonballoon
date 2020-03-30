@@ -1,9 +1,9 @@
-// api key: 35f6bd1548f84ae2bcb8e99a4fae585f
 
 import React from 'react';
 import styled from 'styled-components';
 
 import getWind from './Wind';
+import getClosestCity from './ClosestCity';
 
 import {PositionContext} from './PositionContext';
 import {ConditionsContext} from './ConditionsContext'; 
@@ -12,7 +12,7 @@ import {ConditionsContext} from './ConditionsContext';
 
 const AddressToPosition = () => {
   const { actions: {changePosition} } = React.useContext(PositionContext);
-  const { actions: {changeConditions}} = React.useContext(ConditionsContext);
+  const { actions: {changeConditions, changeClosestCity}} = React.useContext(ConditionsContext);
 
   const [input, setInput] = React.useState('montreal');
 
@@ -36,6 +36,7 @@ const AddressToPosition = () => {
         // console.log(newLat, newLong, latLng);
         changePosition(newLat, newLong);
         getWind(latLng, changeConditions);
+        getClosestCity(latLng, changeClosestCity);
       });
   };
   
@@ -56,7 +57,7 @@ const AddressToPosition = () => {
         onChange={(ev)=> setInput(ev.target.value)}
         ></input>
         <button type='submit'>
-          Submit
+          Launch
         </button>
     </StyledForm>
   )

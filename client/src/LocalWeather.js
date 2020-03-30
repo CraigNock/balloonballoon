@@ -19,7 +19,7 @@ const LocalWeather = () => {
     apparentTemperature,
     // dewPoint,
     humidity,
-    pressure,
+    // pressure,
     windSpeed,
     windGust,
     windBearing,
@@ -27,40 +27,42 @@ const LocalWeather = () => {
     uvIndex,
     visibility,
     // ozone,
+    closestCity,
   } = stateCond;
 
   // let dateObj = new Date(time * 1000); 
   // let utcString = dateObj.toUTCString(); 
   // let convertedTime = utcString.slice(-12, -10);
-  let convertedTime = new Date(time * 1000).toUTCString().slice(-12, -10);
+  // let convertedTime = new Date(time * 1000).toUTCString().slice(-12, -10);
 
   return(
     <StyledBox>
     <StyledH2>Conditions at Balloon</StyledH2>
     <StyledDiv>
       <StyledSubDiv>
-        <p>Balloon Time: <span>{convertedTime} hrs GMT</span></p>
+        <p>Nearest City: <a href={`https://en.wikipedia.org/wiki/${closestCity}`} target="_blank"> {closestCity}</a>
+        </p>
+        <p>Balloon Time: <span>{time}</span></p>
         <p>Conditions: <span>{summary}</span></p>
-        <p>Temperature: <span>{temperature}°C</span></p>
-        <p>Feels Like: <span>{apparentTemperature}°C</span></p>
+        <p>Visibility: <span>{visibility.toFixed(1)} km</span></p>
       </StyledSubDiv>
       <StyledSubDiv>
-        <p>Cloud Cover: <span>{cloudCover}</span></p>
-        <p>Visibility: <span>{visibility.toFixed(2)} km</span></p>
+        <p>Temperature: <span>{temperature.toFixed(1)}°C</span></p>
+        <p>Feels Like: <span>{apparentTemperature.toFixed(1)}°C</span></p>
         <p>UV Index: <span>{uvIndex}</span></p>
-        <p>Humidity: <span>{humidity.toFixed(2)}</span></p>
+        <p>Humidity: <span>{humidity.toFixed(1)}</span></p>
       </StyledSubDiv>
       <StyledSubDiv>
-        <p>Wind Speed: <span>{windSpeed.toFixed(2)} m/s</span></p>
-        <p>Wind Gust: <span>{windGust.toFixed(2)} m/s</span></p>
+        <p>Wind Speed: <span>{windSpeed.toFixed(1)} m/s</span></p>
+        <p>Wind Gust: <span>{windGust.toFixed(1)} m/s</span></p>
         <p>Wind Bearing: <span>{windBearing}°</span></p>
-        <p>Pressure: <span>{pressure}</span></p>
+        <p>Cloud Cover: <span>{cloudCover.toFixed(1)}</span></p>
       </StyledSubDiv>
       <StyledSubDiv>
-        <p>Rain Intensity: <span>{precipIntensity} mm/hr</span></p>
+        <p>Rain Intensity: <span>{precipIntensity.toFixed(1)} mm/hr</span></p>
         <p>Chance of Rain: <span>{precipProbability}%</span></p>
-        <p>Nearest Storm: <span>{nearestStormDistance} km</span></p>
-        <p>Storm Bearing: <span>{nearestStormBearing}°</span></p>
+        <p>Nearest Storm: <span>{nearestStormDistance? `${nearestStormDistance}km`: 'n/a'} </span></p>
+        <p>Storm Bearing: <span>{nearestStormBearing? `${nearestStormBearing}°`: 'n/a'}</span></p>
       </StyledSubDiv>
     </StyledDiv>
     </StyledBox>
@@ -100,10 +102,9 @@ const StyledSubDiv = styled.div`
     font-family: 'Rye', cursive;
 
   }
-  span {
+  span, a {
     /* font-family: 'Trade Winds', cursive; */
     font-family: 'Rye', cursive;
-
     color: maroon;
   }
 `;
