@@ -6,6 +6,7 @@ import Marker from 'pigeon-marker';
 import Overlay from 'pigeon-overlay';
 //tippy for on click marker?
 import balloon from './assets/balloon.svg'
+import compass from './assets/comp2222.png'
 
 import getWind from './Wind';
 import getClosestCity from './ClosestCity';
@@ -76,7 +77,7 @@ const MapMap = () => {
   const [y, setY] = React.useState(1);
   useEffect(() => {
     let posInt = setInterval(()=>{
-    changePosition(state.lat - (0.000001 * y), state.long - (0.000001 * x));
+    changePosition(state.lat - (0.000002 * y), state.long - (0.000002 * x));
     }, 100);
     // console.log(lat, long);
     return () => clearInterval(posInt);
@@ -127,12 +128,8 @@ const MapMap = () => {
           console.log('marker', anchor, payload);
         }}
         />
+        <StyledCompass src={compass}/>
       </Map>
-      <StyledForm>
-        <input name='lat' placeholder='lat'></input>
-        <input name='long' placeholder='long'></input>
-        <button type='submit'>Submit</button>
-      </StyledForm>
     </MapWrap>
   )
 }
@@ -152,24 +149,14 @@ const StyledBalloon = styled.img`
   width: 1.5rem;
 `;
 
-const StyledForm = styled.form`
-  display:none;
-  input {
-    background-color: gray;
-    color: white;
-    margin: .5rem;
-    width: 4rem;
-    height: 2rem;
-    border-radius: 5px
-  }
-  button {
-    background-color: black;
-    color: white;
-    height: 2rem;
-    border-radius: 5px
-  }
-`;
 
+const StyledCompass = styled.img`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 7rem;
+  height: 7rem;
+`;
 
 
 
