@@ -46,7 +46,7 @@ const nearestHandle = async (req, res) => {
 
 const darkGet = async (lat, long) => {
   try{
-    let darkData = await request(`https://api.darksky.net/forecast/***REMOVED***/${lat},${long}?units=si&exclude=minutely,daily,alerts,flags`);
+    let darkData = await request(`https://api.darksky.net/forecast/API_KEY/${lat},${long}?units=si&exclude=minutely,daily,alerts,flags`);
     darkData = JSON.parse(darkData);
     // console.log('darkdata', darkData);
     return darkData;
@@ -69,7 +69,7 @@ const conditionsHandle = async (req, res) => {
 
 const addressGet = async (addresso) => {
   const requestObj = {
-    key: '35f6bd1548f84ae2bcb8e99a4fae585f',
+    key: 'API KEY',
     q: addresso
   };
   return opencage.geocode(requestObj)
