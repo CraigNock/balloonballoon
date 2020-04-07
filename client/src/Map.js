@@ -16,7 +16,7 @@ import {ConditionsContext} from './ConditionsContext';
 
 
 const provider = (x, y, z, dpr) =>  {
-  return `https://tile.thunderforest.com/pioneer/${z}/${x}/${y}${dpr >= 2 ? '@2x' : ''}.png?apikey=***REMOVED***`;
+  return `https://tile.thunderforest.com/pioneer/${z}/${x}/${y}${dpr >= 2 ? '@2x' : ''}.png?apikey=API_KEY_HERE`;
 };
 const StamenAttribution = () => (
   <span className='map-attribution'>
